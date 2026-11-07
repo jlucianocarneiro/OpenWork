@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenWork</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <h1>OpenWork</h1>
+      <span id="model-badge" class="badge"></span>
+      <span id="status-dot" class="status-dot"></span>
+    </div>
+    <div class="header-right">
+      <select id="skill-select" title="Skill ativa">
+        <option value="">Sem skill</option>
+      </select>
+      <button id="btn-clear" title="Limpar conversa">Limpar</button>
+      <button id="btn-theme" title="Alternar tema">&#9789;</button>
+    </div>
+  </header>
+
+  <main id="chat">
+    <div id="welcome" class="welcome">
+      <p class="welcome-title">OpenWork</p>
+      <p class="welcome-sub">Assistente de IA local com Ollama</p>
+      <div id="skill-chips" class="skill-chips"></div>
+    </div>
+  </main>
+
+  <footer>
+    <form id="chat-form">
+      <textarea id="input" placeholder="Digite sua mensagem..." rows="1" autofocus></textarea>
+      <button type="submit" id="btn-send" title="Enviar">&#10148;</button>
+    </form>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
