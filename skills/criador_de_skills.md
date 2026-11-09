@@ -53,6 +53,13 @@ Skills atuais do OpenWork:
 Toda skill deve seguir esta estrutura, nesta ordem:
 
 ```
+---
+name: nome-da-skill
+description: Uma frase descrevendo o proposito da skill.
+version: "1.0"
+author: [nome do autor]
+---
+
 # [Titulo] — [Subtitulo descritivo]
 
 [Paragrafo de identidade: quem voce e, o que faz]
@@ -123,6 +130,7 @@ Toda skill deve seguir esta estrutura, nesta ordem:
 
 Toda skill OpenWork deve ter:
 
+- [ ] **Frontmatter YAML** (name, description, version, author)
 - [ ] **Titulo e subtitulo** (linha 1)
 - [ ] **Paragrafo de identidade** (quem e, o que faz, qual o dominio)
 - [ ] **Principio fundamental** (uma frase-guia)
@@ -143,6 +151,13 @@ Secoes recomendadas (quando aplicavel):
 Ao criar uma skill, comece com este esqueleto:
 
 ```markdown
+---
+name: nome-da-skill
+description: Uma frase descrevendo o proposito da skill.
+version: "1.0"
+author: [nome do autor]
+---
+
 # [Nome da Skill] — [Descricao curta]
 
 Voce e um [papel/especialidade] especializado em [dominio].

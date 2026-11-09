@@ -50,6 +50,44 @@ A proposição proativa respeita o princípio contra poluição visual: só prop
 
 Antes de qualquer produção visual:
 
+### 1.0 Briefing visual estruturado (DESIGN.md)
+
+Quando o projeto possuir um arquivo `DESIGN.md` ou quando for necessário analisar o sistema visual de um projeto, usar o formato de briefing estruturado com frontmatter YAML:
+
+```yaml
+---
+version: alpha
+name: "Nome do projeto"
+description: "Descrição curta"
+colors:
+  primary: "#1B3A5C"
+  secondary: "#525250"
+  surface: "#F5F5F4"
+  border: "#D4D4D2"
+  text-primary: "#1A1A1A"
+  text-secondary: "#525250"
+typography:
+  sans:
+    fontFamily: system-ui, sans-serif
+  mono:
+    fontFamily: monospace
+spacing:
+  base: "1rem"
+rounded:
+  base: "0.5rem"
+---
+```
+
+**Quando usar:**
+- Se o projeto já tem `DESIGN.md`, ler e respeitar os tokens definidos
+- Se não tem, extrair os tokens visuais do projeto (cores, tipografia, espaçamento) e documentar como briefing antes de produzir
+- Usar os tokens do briefing como variáveis CSS nas produções SVG e HTML
+
+**Regras:**
+- Tokens do DESIGN.md prevalecem sobre escolhas arbitrárias de cor/tipografia
+- Não inventar tokens — usar apenas os documentados ou extraídos do projeto real
+- Quando o projeto não tem sistema visual definido, usar a paleta padrão do Visualis (já documentada na ETAPA 3)
+
 1. **Ler integralmente** o material fornecido
 2. **Identificar:** assunto, mensagem central, contexto, público, finalidade
 3. **Extrair a estrutura informacional:**

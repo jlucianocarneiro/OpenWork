@@ -30,6 +30,18 @@ Identifique o que está sendo avaliado, para quem é e em que contexto é usado 
 
 Nunca dê nota só lendo o código ou o texto quando é possível executar, renderizar ou abrir. Registre as evidências: o que foi rodado, o que apareceu, medidas.
 
+### 3.5. Portão de prova (triple proof)
+
+Antes de registrar qualquer achado, ele deve passar pelas três provas:
+
+| Prova | Pergunta | Sem resposta = descartar |
+|---|---|---|
+| **Contrato** | Existe uma regra, padrão ou decisão documentada que governa este aspecto? | Opinião pessoal não é achado |
+| **Evidência de teste** | O problema foi observado em execução, renderização ou inspeção real? | Teoria não é achado |
+| **Correção determinística** | Existe uma única correção concreta que a evidência sustenta? | Ambiguidade não é achado |
+
+Se qualquer prova falhar, o achado é descartado — não entra na avaliação.
+
 ### 4. Dar as notas
 
 Para cada critério, informe:
@@ -37,6 +49,23 @@ Para cada critério, informe:
 - a nota (0 a 10, meio ponto);
 - a evidência que a justifica;
 - quando a nota ficar abaixo de 8,5, a correção concreta que a levaria acima de 8 (o quê, onde, como).
+
+### 4.5. Falsificação
+
+Antes de finalizar as notas, tentar invalidar cada achado negativo:
+
+- Reabrir a evidência original e verificar se o problema corresponde exatamente ao citado
+- Procurar contra-evidência que mostre que a diferença é válida ou intencional
+- Eliminar achado se a evidência suporta mais de uma correção possível
+- Eliminar achado se a correção exige inventar intenção do projeto
+
+Achados que sobrevivem à falsificação entram na tabela estruturada:
+
+| Problema | Evidência | Correção proposta | Confiança |
+|---|---|---|---|
+| [descrição do defeito] | [o que foi observado/medido] | [ação concreta única] | Alta/Média |
+
+Somente achados com as três provas e que sobreviveram à falsificação geram redução de nota.
 
 ### 5. Devolver para adequação
 

@@ -81,6 +81,13 @@ Para skills que envolvem domínios técnicos ou especializados:
 Toda skill deve seguir esta estrutura base, nesta ordem:
 
 ```markdown
+---
+name: nome-da-skill
+description: Uma frase descrevendo o propósito da skill.
+version: "1.0"
+author: [nome do autor]
+---
+
 # [Título] — [Subtítulo descritivo]
 
 [Parágrafo de identidade: quem você é, o que faz]
@@ -201,6 +208,7 @@ Skills para Claude podem (e devem) incluir seções adicionais:
 
 Toda skill deve ter:
 
+- [ ] **Frontmatter YAML** (name, description, version, author)
 - [ ] **Título e subtítulo** (linha 1)
 - [ ] **Parágrafo de identidade** (quem é, o que faz, qual o domínio)
 - [ ] **Princípio fundamental** (uma frase-guia)
@@ -222,6 +230,13 @@ Seções recomendadas:
 #### Template para Claude Code
 
 ```markdown
+---
+name: nome-da-skill
+description: Uma frase descrevendo o propósito da skill.
+version: "1.0"
+author: [nome do autor]
+---
+
 # [Nome da Skill] — [Descrição curta]
 
 Você é um [papel/especialidade] especializado em [domínio].
@@ -282,6 +297,13 @@ Você é um [papel/especialidade] especializado em [domínio].
 #### Template para OpenWork (Ollama)
 
 ```markdown
+---
+name: nome-da-skill
+description: Uma frase descrevendo o propósito da skill.
+version: "1.0"
+author: [nome do autor]
+---
+
 # [Nome da Skill] — [Descrição curta]
 
 Você é um [papel/especialidade] especializado em [domínio].
