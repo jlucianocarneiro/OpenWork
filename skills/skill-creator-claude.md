@@ -358,22 +358,26 @@ Você é um [papel/especialidade] especializado em [domínio].
 
 ## ETAPA 4 — Validação da skill
 
-### 4.1 Checklist de qualidade
+### 4.1 Quality gates (todos devem passar antes da entrega)
 
-| # | Critério | Verificação |
-|---|---|---|
-| 1 | **Identidade** | O modelo sabe quem é e o que faz? |
-| 2 | **Escopo** | Está claro o que a skill faz e o que NÃO faz? |
-| 3 | **Fluxo** | As etapas são sequenciais e fazem sentido? |
-| 4 | **Instruções** | Cada passo diz COMO fazer, não apenas O QUÊ? |
-| 5 | **Formato** | O usuário sabe exatamente o que vai receber? |
-| 6 | **Restrições** | As regras inegociáveis estão explícitas? |
-| 7 | **Gatilhos** | Está claro quando ativar a skill? |
-| 8 | **Tamanho** | Dentro do ideal para a plataforma? |
-| 9 | **Ferramentas** | (Claude) Usa as ferramentas certas nos momentos certos? |
-| 10 | **Autonomia** | (OpenWork) Funciona sem ferramentas externas? |
-| 11 | **Segurança** | Não expõe dados, trata dados sensíveis? |
-| 12 | **Consistência** | Tom e formato uniformes do início ao fim? |
+| # | Gate | Verificação | Tipo |
+|---|---|---|---|
+| 1 | **Identidade** | O modelo sabe quem é e o que faz? | Estrutural |
+| 2 | **Escopo** | Está claro o que a skill faz e o que NÃO faz? | Estrutural |
+| 3 | **Fluxo** | As etapas são sequenciais e fazem sentido? | Estrutural |
+| 4 | **Instruções** | Cada passo diz COMO fazer, não apenas O QUÊ? | Qualidade |
+| 5 | **Formato** | O usuário sabe exatamente o que vai receber? | Estrutural |
+| 6 | **Restrições** | As regras inegociáveis estão explícitas? | Segurança |
+| 7 | **Gatilhos** | Está claro quando ativar a skill? | Estrutural |
+| 8 | **Tamanho** | Dentro do ideal para a plataforma? | Qualidade |
+| 9 | **Ferramentas** | (Claude) Usa as ferramentas certas nos momentos certos? | Qualidade |
+| 10 | **Autonomia** | (OpenWork) Funciona sem ferramentas externas? | Robustez |
+| 11 | **Segurança** | Não expõe dados, trata dados sensíveis? | Segurança |
+| 12 | **Consistência** | Tom e formato uniformes do início ao fim? | Qualidade |
+| 13 | **Never-crash** | Nenhuma instrução pode levar a falha silenciosa? | Robustez |
+| 14 | **Frontmatter** | YAML válido com name, description, version, author? | Estrutural |
+
+**Regra de bloqueio:** Gates de tipo Segurança ou Robustez que falham impedem a entrega. Gates Estruturais e de Qualidade devem ser corrigidos, mas não bloqueiam a análise dos demais.
 
 ### 4.2 Teste prático (Claude Code)
 
@@ -435,6 +439,16 @@ Gerar as duas versões, destacando as diferenças:
   - Nenhuma telemetria ou analytics sem consentimento
   - Rede restrita ao Tailscale quando aplicável
 
+### Política never-crash (aplicar a toda skill criada)
+
+- **Nunca** produzir instruções que levem a falha silenciosa — Em vez disso, instruir tratamento explícito de erro
+- **Nunca** usar instruções vagas para casos de erro ("trate adequadamente") — Em vez disso, descrever o comportamento esperado
+- **Sempre** incluir o que fazer quando a entrada for insuficiente ou ambígua
+- **Sempre** prever o estado vazio — o que a skill faz sem dados, arquivo ou contexto
+- **Nunca** assumir entrada perfeita — definir comportamento com entradas incompletas ou malformadas
+- (Claude) **Sempre** usar `try/catch` ou verificação de existência antes de ler arquivos com `Read`/`Grep`
+- (Claude) **Sempre** verificar resultado de `Bash` antes de prosseguir — exit code != 0 é erro
+
 ---
 
 ## Modos de operação
@@ -491,6 +505,24 @@ Regras para agentes de código que trabalham neste projeto.
 - **Sempre** validar entradas em fronteiras do sistema
 ```
 
+**House rules universais (incluir sempre, adaptar ao projeto):**
+
+1. Ler documentação do projeto (README, DESIGN.md, ROADMAP) antes de agir
+2. Orientar → planejar → implementar → verificar → registrar → commit
+3. Nunca introduzir dependência externa sem justificativa documentada
+4. Nunca quebrar funcionalidade existente — testar após cada mudança
+5. Nunca expor credenciais, tokens ou dados sensíveis
+6. Nunca enviar dados para serviços externos sem consentimento explícito
+7. Tratar erros explicitamente — nunca engolir exceção silenciosamente
+8. Validar entradas em fronteiras do sistema (input do usuário, APIs)
+9. Usar nomes descritivos — código auto-documentado antes de comentários
+10. Manter consistência com padrões existentes do projeto
+11. Preferir solução simples sobre solução "elegante"
+12. Testar o caminho feliz e pelo menos um caso de borda antes de entregar
+13. Documentar decisões não óbvias (por quê, não o quê)
+14. Nunca forçar push, resetar hard ou deletar branches sem confirmação
+15. Registrar o que foi feito e o que ficou pendente
+
 **Regras de escrita para AGENTS.md:**
 
 | Padrão | Descrição |
@@ -500,6 +532,7 @@ Regras para agentes de código que trabalham neste projeto.
 | Agrupamento por categoria | Tokens, tipografia, espaçamento, componentes, segurança |
 | Sem opinião | Regras baseadas em decisões documentadas do projeto, não preferências |
 | Extraído do projeto | (Claude) Usar `Grep`/`Read` para validar que tokens e padrões existem no código real |
+| House rules universais | Sempre incluir as 15 regras base, adaptando ao contexto do projeto |
 
 ---
 

@@ -215,22 +215,28 @@ tabela, relatorio, codigo, diagrama, etc.]
 
 ## ETAPA 4 — Validacao da skill
 
-### 4.1 Checklist de qualidade (todos devem passar)
+### 4.1 Quality gates (todos devem passar antes da entrega)
 
-| # | Criterio | Verificacao |
-|---|---|---|
-| 1 | **Identidade** | O modelo sabe quem e e o que faz? |
-| 2 | **Escopo** | Esta claro o que a skill faz e o que NAO faz? |
-| 3 | **Fluxo** | As etapas sao sequenciais e fazem sentido? |
-| 4 | **Instrucoes** | Cada passo diz COMO fazer, nao apenas O QUE? |
-| 5 | **Formato** | O usuario sabe exatamente o que vai receber? |
-| 6 | **Restricoes** | As regras inegociaveis estao explicitas? |
-| 7 | **Gatilhos** | Esta claro quando ativar a skill? |
-| 8 | **Tamanho** | Entre 100-300 linhas? |
-| 9 | **Autonomia** | Funciona sem ferramentas externas? |
-| 10 | **Seguranca** | Nao expoe dados, nao depende de nuvem? |
-| 11 | **Consistencia** | Tom e formato uniformes do inicio ao fim? |
-| 12 | **Compatibilidade** | Funciona com modelos locais (7B-14B)? |
+Inspirado no padrao FigCraft: nenhuma skill e entregue sem passar por todos os gates.
+
+| # | Gate | Verificacao | Tipo |
+|---|---|---|---|
+| 1 | **Identidade** | O modelo sabe quem e e o que faz? | Estrutural |
+| 2 | **Escopo** | Esta claro o que a skill faz e o que NAO faz? | Estrutural |
+| 3 | **Fluxo** | As etapas sao sequenciais e fazem sentido? | Estrutural |
+| 4 | **Instrucoes** | Cada passo diz COMO fazer, nao apenas O QUE? | Qualidade |
+| 5 | **Formato** | O usuario sabe exatamente o que vai receber? | Estrutural |
+| 6 | **Restricoes** | As regras inegociaveis estao explicitas? | Seguranca |
+| 7 | **Gatilhos** | Esta claro quando ativar a skill? | Estrutural |
+| 8 | **Tamanho** | Entre 100-300 linhas? | Qualidade |
+| 9 | **Autonomia** | Funciona sem ferramentas externas? | Robustez |
+| 10 | **Seguranca** | Nao expoe dados, nao depende de nuvem? | Seguranca |
+| 11 | **Consistencia** | Tom e formato uniformes do inicio ao fim? | Qualidade |
+| 12 | **Compatibilidade** | Funciona com modelos locais (7B-14B)? | Robustez |
+| 13 | **Never-crash** | Nenhuma instrucao pode levar a falha silenciosa? | Robustez |
+| 14 | **Frontmatter** | YAML valido com name, description, version, author? | Estrutural |
+
+**Regra de bloqueio:** Se qualquer gate de tipo Seguranca ou Robustez falhar, a skill NAO pode ser entregue. Gates de tipo Estrutural e Qualidade devem ser corrigidos antes da entrega, mas nao bloqueiam a analise dos demais.
 
 ### 4.2 Teste mental
 
@@ -274,6 +280,16 @@ Skills no OpenWork rodam em modelos locais (tipicamente 7B-14B parametros). Cons
 - **Nunca** duplicar funcionalidade ja coberta por skill existente sem justificativa
 - **Sempre** manter compatibilidade com modelos locais (sem dependencia de capacidades exclusivas de modelos comerciais grandes)
 - **Sempre** incluir restricoes de seguranca quando a skill lidar com dados sensiveis
+
+### Politica never-crash (aplicar a toda skill criada)
+
+Toda skill gerada deve seguir a disciplina never-crash:
+
+- **Nunca** produzir instrucoes que levem a falha silenciosa — Em vez disso, instruir tratamento explicito de erro
+- **Nunca** usar instrucoes vagas para casos de erro ("trate adequadamente") — Em vez disso, descrever o comportamento esperado em caso de falha
+- **Sempre** incluir o que fazer quando a entrada for insuficiente ou ambigua (pedir clarificacao, usar default seguro, ou informar limitacao)
+- **Sempre** prever o estado vazio — o que a skill faz quando nao ha dados, arquivo, ou contexto suficiente
+- **Nunca** assumir que a entrada do usuario sera perfeita — Em vez disso, definir como a skill se comporta com entradas incompletas ou malformadas
 
 ---
 
@@ -329,6 +345,26 @@ Regras para agentes de codigo que trabalham neste projeto.
 - **Sempre** validar entradas em fronteiras do sistema
 ```
 
+**House rules universais (incluir sempre, adaptar ao projeto):**
+
+Baseado no padrao FigCraft — 15 regras universais aplicaveis a qualquer projeto:
+
+1. Ler documentacao do projeto (README, DESIGN.md, ROADMAP) antes de agir
+2. Orientar → planejar → implementar → verificar → registrar → commit
+3. Nunca introduzir dependencia externa sem justificativa documentada
+4. Nunca quebrar funcionalidade existente — testar apos cada mudanca
+5. Nunca expor credenciais, tokens ou dados sensiveis
+6. Nunca enviar dados para servicos externos sem consentimento explicito
+7. Tratar erros explicitamente — nunca engolir excecao silenciosamente
+8. Validar entradas em fronteiras do sistema (input do usuario, APIs)
+9. Usar nomes descritivos — codigo auto-documentado antes de comentarios
+10. Manter consistencia com padroes existentes do projeto
+11. Preferir solucao simples sobre solucao "elegante"
+12. Testar o caminho feliz e pelo menos um caso de borda antes de entregar
+13. Documentar decisoes nao obvias (por que, nao o que)
+14. Nunca forcar push, resetar hard ou deletar branches sem confirmacao
+15. Registrar o que foi feito e o que ficou pendente
+
 **Regras de escrita para AGENTS.md:**
 
 | Padrao | Descricao |
@@ -337,6 +373,7 @@ Regras para agentes de codigo que trabalham neste projeto.
 | Alternativa concreta | Toda regra "Nunca" deve ter um "Em vez de" com a solucao correta |
 | Agrupamento por categoria | Tokens, tipografia, espacamento, componentes, seguranca |
 | Sem opiniao | Regras baseadas em decisoes documentadas do projeto, nao preferencias |
+| House rules universais | Sempre incluir as 15 regras base, adaptando ao contexto do projeto |
 
 ---
 

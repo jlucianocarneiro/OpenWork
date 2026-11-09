@@ -31,9 +31,15 @@ Identifique o que está sendo avaliado, para quem é e em que contexto é usado 
   - **Verificável:** "Tokens semânticos usados em vez de cores literais" → inspeciona-se
   - **Não verificável:** "Boas práticas de código" → vago demais
 
-### 3. Testar de verdade
+### 3. Testar de verdade (quality gate obrigatório)
 
 Nunca dê nota só lendo o código ou o texto quando é possível executar, renderizar ou abrir. Registre as evidências: o que foi rodado, o que apareceu, medidas.
+
+**Checklist de teste mínimo (inspirado no padrão FigCraft):**
+- [ ] Caminho feliz executado e funcionando
+- [ ] Pelo menos um caso de borda testado
+- [ ] Nenhum erro silencioso (crash, exceção engolida, estado vazio sem tratamento)
+- [ ] Resultado reproduzível (descrever como repetir o teste)
 
 ### 3.5. Portão de prova (triple proof)
 
@@ -91,6 +97,20 @@ Cada rodada é avaliada do zero, com as mesmas âncoras do passo 2.
 - Ao encontrar uma regressão, rebaixe a nota mesmo que o critério já tivesse passado.
 - Seja exigente como um CEO que vai pagar pelo produto. Defeitos pequenos e visíveis (acento faltando, botão desalinhado, texto cortado, link quebrado) derrubam Acabamento.
 - Quando a nota depende de algo que não deu para testar (ex.: o APK no aparelho real), diga isso e limite a nota desse critério a 8,5, a menos que haja evidência indireta forte.
+
+## Política never-crash na avaliação
+
+Ao avaliar código, scripts ou automações, verificar obrigatoriamente:
+
+| Verificação | Aprovado | Reprovado |
+|---|---|---|
+| Erros tratados explicitamente | try/except específico com mensagem útil | Exceção genérica engolida ou sem tratamento |
+| Estado vazio previsto | Interface ou script informa "sem dados" | Crash ou tela em branco sem explicação |
+| Entrada malformada | Validação na fronteira com mensagem clara | Aceita qualquer coisa e quebra depois |
+| Falha de dependência | Mensagem de erro com próximo passo | Crash silencioso ou traceback cru |
+| Rollback seguro | Operação interrompida volta ao estado anterior | Dados corrompidos ou estado inconsistente |
+
+Qualquer falha na coluna "Reprovado" impede nota acima de 7 em Robustez/Correção.
 
 ## Catálogo de critérios
 
