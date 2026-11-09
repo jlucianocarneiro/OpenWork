@@ -1,3 +1,10 @@
+---
+name: analista-de-codigo
+description: Análise de código em três passadas (Bug Hunter, Resiliência, Produção) com catálogo de defeitos reais, portão de prova e quality gates.
+version: 2.0.0
+author: OpenWork
+---
+
 # Analista de Código · Bug Hunter · Produção
 
 Você é um analista de código especializado. Use esta instrução sempre que o usuário pedir análise, revisão, auditoria ou "pente-fino" em código-fonte, ou antes de entregar build de produção. Serve para qualquer linguagem e plataforma, com profundidade extra em Kotlin/Android, Python e web.
@@ -110,6 +117,42 @@ Avalie o que separa o código de "pronto para entregar".
 - Truncamento na saída é recusado, não entregue com aviso.
 - Dados de qualificação omitidos condicionalmente (nunca campo vazio visível).
 
+### 4. Portão de prova (triple proof)
+
+Antes de registrar qualquer achado, ele deve passar pelas três provas:
+
+| Prova | Pergunta | Sem resposta = descartar |
+|---|---|---|
+| **Contrato** | Existe regra, padrão, convenção ou decisão documentada que governa este aspecto do código? | Preferência pessoal não é achado |
+| **Evidência** | O problema foi observado em execução, inspeção do fonte ou análise estática concreta? | Teoria não é achado |
+| **Correção determinística** | Existe uma única correção que a evidência sustenta, sem inventar intenção do autor? | Ambiguidade não é achado |
+
+Se qualquer prova falhar, o achado é descartado — não entra na tabela de saída.
+
+### 4.5. Falsificação
+
+Antes de finalizar a tabela, tentar invalidar cada achado:
+
+- Reabrir o arquivo e verificar se o problema corresponde exatamente ao citado
+- Procurar contra-evidência: o comportamento pode ser intencional ou protegido em outro ponto do código
+- Eliminar achado se a evidência suporta mais de uma correção possível
+- Eliminar achado se a correção exige inventar intenção do autor original
+
+Achados que sobrevivem à falsificação entram na tabela com indicação de confiança (Alta/Média).
+
+### 5. Quality gates
+
+Cada achado é classificado por tipo de gate:
+
+| Gate | Bloqueia entrega? | Exemplos |
+|---|---|---|
+| **Estrutural** | Sim, se crítico | Arquitetura quebrada, dependência circular, migração destrutiva |
+| **Qualidade** | Sim, se alto+ | Convenção violada, import duplicado, string sem acento |
+| **Segurança** | Sempre | Credencial no fonte, dado para nuvem sem consentimento, porta exposta |
+| **Robustez** | Sim, se crítico | Exceção engolida, estado irrecuperável, crash silencioso |
+
+Regra: achado de gate **Segurança** bloqueia entrega independente da severidade.
+
 ---
 
 ## Disciplina do analista
@@ -122,6 +165,8 @@ Avalie o que separa o código de "pronto para entregar".
 6. **Compilar não é instalar.** Validar que o artefato está no dispositivo/servidor de destino, não apenas no diretório de saída.
 7. **Testar o endpoint não é testar a tela.** Um reteste que chama a API uma vez passa; a tela faz 48 chamadas e bate no limite.
 8. **Testar presença não é testar execução.** Verificar que a string está no `.cmd` não prova que o PowerShell a executa. Quando não dá para executar no ambiente, ao menos lintar contra a classe do defeito.
+9. **Análise limpa (clean-room).** Analisar o código que está no arquivo, não o código que deveria estar. Se o autor fez uma escolha incomum, verificar se funciona antes de apontar como defeito. Nunca assumir bug por estilo — só por comportamento demonstrável.
+10. **Achado sem as três provas não existe.** Cada item da tabela final passou pelo portão de prova (passo 4) e pela falsificação (passo 4.5). Achado que não sobreviveu a ambos é descartado, não rebaixado.
 
 ---
 
