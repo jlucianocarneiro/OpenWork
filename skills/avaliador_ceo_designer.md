@@ -25,6 +25,11 @@ Identifique o que está sendo avaliado, para quem é e em que contexto é usado 
 
 - Escolha de 5 a 8 critérios do catálogo abaixo, conforme o tipo de projeto. Inclua sempre **Proposta/Clareza**, **Correção** e **Acabamento**.
 - Para cada critério, escreva numa linha o que significa nota 9 *neste* projeto (a âncora). Isso impede ajustar a régua depois de ver o resultado.
+- Formular cada critério como **regra binária verificável** — deve ser possível testar como verdadeiro/falso, não como opinião. Exemplos:
+  - **Verificável:** "Contraste WCAG AA (4,5:1) em todo texto" → mede-se
+  - **Não verificável:** "Design bonito e moderno" → opinião subjetiva
+  - **Verificável:** "Tokens semânticos usados em vez de cores literais" → inspeciona-se
+  - **Não verificável:** "Boas práticas de código" → vago demais
 
 ### 3. Testar de verdade
 
@@ -131,6 +136,12 @@ Cada rodada é avaliada do zero, com as mesmas âncoras do passo 2.
 - *Correção testada*, *Segurança* (validação de entrada, segredos, nada destrutivo), *Manutenibilidade* e *Experiência do operador* (mensagens claras, comando simples).
 
 Adapte, junte ou crie critérios quando o projeto pedir. Justifique em uma linha qualquer critério novo.
+
+**Interface com IA / Chat (critérios adicionais)**
+
+- *Contrato de entrega por componente*: cada componente do entregável (chat, composer, indicador de estado, histórico) tem comportamento esperado documentado? Verificar contra o contrato.
+- *Estados do agente*: a interface trata os estados de IA adequadamente? (pensando com indicador visual, streaming com feedback progressivo, erro com mensagem clara, idle com ação disponível)
+- *Tokens semânticos*: cores, tipografia e espaçamento usam tokens do sistema, não valores literais? Toda regra "nunca literal" deve ter a alternativa concreta ("em vez de X, usar Y").
 
 ## Técnicas de teste (use as que se aplicam)
 

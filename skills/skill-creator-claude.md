@@ -446,6 +446,60 @@ Gerar as duas versões, destacando as diferenças:
 | **Melhorar** | "Melhore esta skill", "Refatore este prompt" | Analisa skill existente, identifica falhas, propõe correções |
 | **Adaptar** | "Adapte para Claude" / "Adapte para OpenWork" | Converte skill entre plataformas, ajustando recursos |
 | **Revisar** | "Revise esta skill", "Está boa?" | Aplica checklist de qualidade, retorna diagnóstico |
+| **Criar AGENTS.md** | "Crie regras para agentes", "AGENTS.md" | Gera documento de governança para coding agents |
+
+---
+
+## Template AGENTS.md (modo "Criar AGENTS.md")
+
+Quando o usuário pedir para criar regras para coding agents ou um AGENTS.md, usar este formato.
+No Claude Code, usar `Read` e `Grep` para extrair tokens e padrões reais do projeto antes de escrever.
+
+```markdown
+# AGENTS.md — [Nome do Projeto]
+
+Regras para agentes de código que trabalham neste projeto.
+
+## Tokens semânticos
+
+- **Nunca** usar cores literais — usar tokens do sistema (`--primary`, `--surface`, etc.)
+- **Sempre** referenciar tokens existentes antes de criar novos
+- **Em vez de** `color: #1B3A5C` → usar `color: var(--primary)`
+
+## Tipografia
+
+- **Nunca** montar tipografia empilhando propriedades separadas
+- **Sempre** usar as escalas compostas definidas (título, corpo, caption)
+- **Em vez de** `font-size: 14px; font-weight: 500` → usar a classe/token de corpo
+
+## Espaçamento
+
+- **Nunca** usar valores mágicos de espaçamento
+- **Sempre** usar a escala de espaçamento do projeto
+- **Em vez de** `padding: 13px` → usar o token mais próximo (`--spacing-base`)
+
+## Componentes
+
+- **Nunca** reconstruir comportamento de teclado ou foco manualmente
+- **Sempre** usar os primitivos acessíveis do projeto
+- **Nunca** misturar sistemas de primitivos na mesma superfície
+
+## Segurança
+
+- **Nunca** salvar credenciais, tokens ou senhas no código
+- **Nunca** enviar dados para serviços externos sem consentimento
+- **Sempre** validar entradas em fronteiras do sistema
+```
+
+**Regras de escrita para AGENTS.md:**
+
+| Padrão | Descrição |
+|---|---|
+| Regra binária | Cada regra deve ser verificável como verdadeiro/falso — sem "use bom senso" |
+| Alternativa concreta | Toda regra "Nunca" deve ter um "Em vez de" com a solução correta |
+| Agrupamento por categoria | Tokens, tipografia, espaçamento, componentes, segurança |
+| Sem opinião | Regras baseadas em decisões documentadas do projeto, não preferências |
+| Extraído do projeto | (Claude) Usar `Grep`/`Read` para validar que tokens e padrões existem no código real |
 
 ---
 

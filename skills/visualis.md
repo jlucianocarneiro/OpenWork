@@ -60,23 +60,47 @@ version: alpha
 name: "Nome do projeto"
 description: "Descrição curta"
 colors:
+  # Camada 1: Primitivas (valores reais)
+  # palette-navy: "#011627"
+  # palette-stone: "#F5F5F4"
+  # Camada 2: Semânticos (funções — referenciam primitivas)
   primary: "#1B3A5C"
   secondary: "#525250"
   surface: "#F5F5F4"
   border: "#D4D4D2"
   text-primary: "#1A1A1A"
   text-secondary: "#525250"
+  # Camada 3: Dark mode (mesmos nomes semânticos, valores invertidos)
+  # dark:
+  #   primary: "#4A90D9"
+  #   surface: "#1A1A1A"
+  #   text-primary: "#F5F5F4"
 typography:
   sans:
     fontFamily: system-ui, sans-serif
   mono:
     fontFamily: monospace
+  # Escalas compostas (tamanho + peso + altura de linha)
+  # title:
+  #   fontFamily: system-ui, sans-serif
+  #   fontSize: "1.5rem"
+  #   fontWeight: 700
+  #   lineHeight: "2rem"
+  # body:
+  #   fontSize: "1rem"
+  #   fontWeight: 400
+  #   lineHeight: "1.5rem"
 spacing:
   base: "1rem"
 rounded:
   base: "0.5rem"
 ---
 ```
+
+O sistema de tokens usa **três camadas** (padrão BoardUI):
+1. **Primitivas** — valores de cor reais (hex, oklch), nunca referenciados diretamente
+2. **Semânticos** — funções visuais (primary, surface, text-primary) que apontam para primitivas
+3. **Dark mode** — mesmos nomes semânticos com valores invertidos (troca automática, sem re-estilização)
 
 **Quando usar:**
 - Se o projeto já tem `DESIGN.md`, ler e respeitar os tokens definidos
@@ -86,7 +110,21 @@ rounded:
 **Regras:**
 - Tokens do DESIGN.md prevalecem sobre escolhas arbitrárias de cor/tipografia
 - Não inventar tokens — usar apenas os documentados ou extraídos do projeto real
+- Sempre usar tokens semânticos, nunca cores literais nas produções (em vez de `fill="#1B3A5C"` → usar `fill="var(--primary)"`)
 - Quando o projeto não tem sistema visual definido, usar a paleta padrão do Visualis (já documentada na ETAPA 3)
+
+### Paletas multi-variante
+
+Quando o projeto precisar de variantes de tema além de light/dark, usar o modelo de paletas nomeadas:
+
+| Paleta | Uso típico | Exemplo de primária |
+|---|---|---|
+| **Padrão** | Uso geral do projeto | `#1B3A5C` (navy) |
+| **Monocromática** | Documentos formais, impressão | Escalas de cinza |
+| **Institucional** | Identidade corporativa | Cores da marca |
+| **Alto contraste** | Acessibilidade, leitura ao sol | Preto/branco com acento forte |
+
+Cada paleta redefine os mesmos tokens semânticos — a produção visual não muda, apenas os valores.
 
 1. **Ler integralmente** o material fornecido
 2. **Identificar:** assunto, mensagem central, contexto, público, finalidade
@@ -129,6 +167,24 @@ rounded:
 | Relatório institucional | Tabelas estruturadas, diagramas sóbrios |
 | Cadeia de evidências | Fluxo vertical com fontes anotadas |
 | Explicação de conceito | Infográfico ou ilustração conceitual |
+| Interface de chat/IA | Diagrama de estados do agente + fluxo de interação |
+
+### Vocabulário visual para estados de IA
+
+Ao documentar ou diagramar interfaces que envolvem agentes/LLMs, usar estes estados visuais padronizados:
+
+| Estado | Representação visual | Indicador recomendado |
+|---|---|---|
+| **Idle** | Composer ativo, ação disponível | Cursor piscando, placeholder com sugestão |
+| **Pensando** | Processamento em curso | Indicador animado com timer (não apenas spinner genérico) |
+| **Streaming** | Resposta sendo gerada | Texto aparecendo progressivamente, cursor de digitação |
+| **Erro** | Falha no processamento | Mensagem inline junto à ação, cor de alerta, retry disponível |
+| **Completo** | Resposta entregue | Texto final, ações de follow-up visíveis |
+
+Quando diagramar fluxos de chat, distinguir visualmente:
+- **Mensagem do usuário** → alinhamento/cor distinta
+- **Resposta do agente** → alinhamento/cor distinta com indicação de modelo/provider
+- **Estado de sistema** → centralizado, estilo atenuado (conectando, reconectando, limite atingido)
 
 **Nem todo texto precisa virar infográfico.** Em alguns casos:
 - Remover elementos desnecessários é melhor que adicionar

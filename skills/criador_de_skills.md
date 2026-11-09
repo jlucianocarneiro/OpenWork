@@ -285,6 +285,58 @@ Skills no OpenWork rodam em modelos locais (tipicamente 7B-14B parametros). Cons
 | **Melhorar** | "Melhore esta skill", "Refatore este prompt" | Analisa skill existente, identifica falhas, propoe correcoes |
 | **Adaptar** | "Adapte este prompt para OpenWork" | Converte prompt externo ao formato e padroes OpenWork |
 | **Revisar** | "Revise esta skill", "Esta skill esta boa?" | Aplica checklist de qualidade, retorna diagnostico |
+| **Criar AGENTS.md** | "Crie regras para agentes", "AGENTS.md" | Gera documento de governanca para coding agents |
+
+---
+
+## Template AGENTS.md (modo "Criar AGENTS.md")
+
+Quando o usuario pedir para criar regras para coding agents ou um AGENTS.md, usar este formato:
+
+```markdown
+# AGENTS.md — [Nome do Projeto]
+
+Regras para agentes de codigo que trabalham neste projeto.
+
+## Tokens semanticos
+
+- **Nunca** usar cores literais — usar tokens do sistema (`--primary`, `--surface`, etc.)
+- **Sempre** referenciar tokens existentes antes de criar novos
+- **Em vez de** `color: #1B3A5C` → usar `color: var(--primary)`
+
+## Tipografia
+
+- **Nunca** montar tipografia empilhando propriedades separadas
+- **Sempre** usar as escalas compostas definidas (titulo, corpo, caption)
+- **Em vez de** `font-size: 14px; font-weight: 500` → usar a classe/token de corpo
+
+## Espacamento
+
+- **Nunca** usar valores magicos de espacamento
+- **Sempre** usar a escala de espacamento do projeto
+- **Em vez de** `padding: 13px` → usar o token mais proximo (`--spacing-base`)
+
+## Componentes
+
+- **Nunca** reconstruir comportamento de teclado ou foco manualmente
+- **Sempre** usar os primitivos acessiveis do projeto
+- **Nunca** misturar sistemas de primitivos na mesma superficie
+
+## Seguranca
+
+- **Nunca** salvar credenciais, tokens ou senhas no codigo
+- **Nunca** enviar dados para servicos externos sem consentimento
+- **Sempre** validar entradas em fronteiras do sistema
+```
+
+**Regras de escrita para AGENTS.md:**
+
+| Padrao | Descricao |
+|---|---|
+| Regra binaria | Cada regra deve ser verificavel como verdadeiro/falso — sem "use bom senso" |
+| Alternativa concreta | Toda regra "Nunca" deve ter um "Em vez de" com a solucao correta |
+| Agrupamento por categoria | Tokens, tipografia, espacamento, componentes, seguranca |
+| Sem opiniao | Regras baseadas em decisoes documentadas do projeto, nao preferencias |
 
 ---
 
